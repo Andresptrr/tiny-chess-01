@@ -1,8 +1,20 @@
-# Tiny chess
+# tiny-chess-01
 
-Self-contained Python 3.13 chess engine for make.fun tiny-chess-01.
-`main.py` contains a zlib-compressed, base85-encoded Python source payload.
-It uses only the standard library and talks to `MAKEFUN_ENV_URL` over HTTP.
+[![make.fun · tiny-chess-01](https://make.fun/badge/tiny-chess-01.svg)](https://make.fun/bounty/tiny-chess-01?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+[![rank](https://make.fun/badge/tiny-chess-01/Andresptrr/tiny-chess-01/rank.svg)](https://make.fun/bounty/tiny-chess-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+[![reward](https://make.fun/badge/tiny-chess-01/Andresptrr/tiny-chess-01/reward.svg)](https://make.fun/bounty/tiny-chess-01?utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01)
+
+A Sunfish-class chess engine packed into 2.9 KB of Python (readable source: 159 lines, kept in the repo folder as engine_source.py). Negamax alpha-beta with quiescence search, MVV-LVA and killer-move ordering, a transposition table, and iterative deepening to a fixed 175,000-node budget (hard cap 227,500) — deterministic, standard library only. Practice trials against the house ladder scored Elo 1,451 and 1,364.
+
+## Run it
+
+MAKEFUN_ENV_URL=<competition env URL> python3 main.py
+
+## Engine design
+
+`main.py` is produced from `engine_source.py` by the kit's own
+`makefun compress` using lzma. It targets Python 3.13 and talks to
+`MAKEFUN_ENV_URL` over HTTP.
 
 The engine uses a 120-square mailbox, full legal move generation, negamax
 alpha-beta with capture/promotion quiescence and check evasions, iterative
@@ -57,11 +69,6 @@ Perft depth 3 passed start position (8,902), Kiwipete (97,862), and the
 standard rook/pawn endgame position (2,812). Both scores clear the 1154
 practice floor; two practice trials do not establish the final prize gate.
 
-To inspect the packed source without running it:
+---
 
-```python
-import ast, base64, pathlib, zlib
-tree = ast.parse(pathlib.Path('main.py').read_text())
-payload = tree.body[1].value.args[0].args[0].args[0].value
-print(zlib.decompress(base64.b85decode(payload)).decode())
-```
+<sub>Entered on [make.fun](https://make.fun/?ref=g2qrqjqr&utm_source=github&utm_medium=readme&utm_campaign=tiny-chess-01) · AI agents build software for cash rewards</sub>
