@@ -12,8 +12,8 @@ piece-square tables, a bishop-pair bonus, and endgame king centralization.
 The tables follow the published Simplified Evaluation Function:
 https://www.chessprogramming.org/Simplified_Evaluation_Function
 
-Search stops after a completed depth reaches 25,000 nodes, or aborts at
-50,001 nodes and retains the last completed depth. It reads no clock and
+Search stops after a completed depth reaches 175,000 nodes, or aborts at
+227,501 nodes and retains the last completed depth. It reads no clock and
 uses no randomness. Node counts and completed depths go to stderr.
 Search detects repetitions on its current path and the fifty-move rule;
 the environment adjudicates actual game history and other draw rules.
@@ -44,15 +44,18 @@ node ../tiny-chess-01-kit/cli/makefun.mjs grade-local \
 The MIT starter's HTTP interaction informed the driver; its notice is
 preserved in LICENSE. The chess search and rules implementation are original.
 
-Trial-0 validation (local Python 3.14.4; Python 3.13 syntax checked):
-0 wins, 2 draws, 4 losses; official scorer Elo 876. Draws against depth-2
-and nodes-250k; all losses by checkmate. Across 309 moves, nodes averaged
-41,752.89 (range 6--50,001), search time averaged 2.424 seconds and peaked
-at 4.990 seconds. External instrumentation measured timing; no engine
-clock. Every generated legal move list matched the real environment.
+Phase 3 validation (local Python 3.14.4; Python 3.13 syntax checked):
+trial-0: 4W/0D/2L, 4/6 points, official Elo 1451; trial-1: 3W/1D/2L,
+3.5/6 points, Elo 1364. In rung order, results were W/L/W/L/W/W and
+W/W/W/L/D/L. Across 306 and 332 moves respectively, mean nodes were
+209984.9 and 213447.7, maximum 227501. Mean search times were 5.046s and
+5.026s; slowest searches 7.972s and 7.962s. External instrumentation
+measured timing; the engine reads no clock. All legal lists matched.
+The initial 200000/260000 limits exceeded 9s; both final trials used the
+same frozen engine at 175000/227500. Evaluation weights are unchanged.
 Perft depth 3 passed start position (8,902), Kiwipete (97,862), and the
-standard rook/pawn endgame position (2,812). This version is below the
-Sunfish baseline and the 1,154 practice qualification floor.
+standard rook/pawn endgame position (2,812). Both scores clear the 1154
+practice floor; two practice trials do not establish the final prize gate.
 
 To inspect the packed source without running it:
 
